@@ -10,16 +10,16 @@ var fac_usernames = [];
 //array for staff usernames..will use usernames to pull specific data
 var staff_usernames = [];
 
-$(document).ready(function(){
-	//http://ist.rit.edu/~istdev/api
 
+function init(){
+	//http://ist.rit.edu/~istdev/api
 	$.ajax({
 		type:'get',
 		async:false,
 		cache:false,
 		url:'proxy.php',
 		dataType:'json',
-		data:{path:'/people'},
+		data:{path:'/api/people'},
 		success:function(data){
 			
 			var fac = data.faculty;
@@ -38,53 +38,49 @@ $(document).ready(function(){
 				staff_usernames.push(staff[i].username);
 				
 			}
-			console.log(data);
+			//console.log(data);
 			
-			//var len =  data.results.length;
-        	//for(var i=0;i<len;i++ ){
-            //	console.log(data.results[i]);
-        	//}
-			getFacultyInfo(fac_usernames[0]);
-			//$( "#content" ).html( "<strong>HEY</strong>" );
+			//getFacultyInfo(fac_usernames[0]);
 			
 		},
 		error:err
 	});
-});
+}
 
 function err(event){
 		console.log(event);	
 	}
 	
 	
-	function getFacultyInfo(username){
+function getFacultyInfo(username){
 		
 	$.ajax({
 		type:'get',
-		async:false,
+		async:true,
 		cache:false,
 		url:'proxy.php',
 		dataType:'json',
-		data:{path:'/people/faculty/username='+username},
+		data:{path:'/api/people/faculty/username='+username},
 		success:function(data){
 			
-			var table = '<table><hr> <th>Name</th> <th>Office</th> <th>Department</th> </hr>';
-			table+='<tr><td>'+data.name+'</td>';
-			table+='<td>'+data.office+'</td>';
-			table+='<td>IST</td></tr>';
-			console.log(table);
-			$('#content').append(table+'</table>');
+			var div = '<div id="faculty"> <table><hr> <th>Name</th> <th>Img</th> <th>Office</th> <th>Department</th> </hr>';
+			div+='<tr><td>'+data.name+'</td>';
+			div+= '<td><img id="facImg" alt="img" src="http://ist.rit.edu/assets/img/people/'+username+'.jpg"></td>';
+			div+='<td>'+data.office+'</td>';
+			div+='<td>IST</td></tr>';
+			//console.log(table);
+			$('#test').append(div+'</table></div>');
 			
 		},
 		error:err
 	});
-		
+			
 	
 	}
+
 	
 	
-	
-	
+	init();
 	
 	//getFaculty();
 	
@@ -92,10 +88,12 @@ function err(event){
 </script>
 
 </head>
-<body onload=>
+<body>
 	<div id="content" style="color:black"> <h1> content from api call:</h1> 
 	
 	 </div>
+	 
+	 <div id="test">Testing function here: <script type="text/javascript">getFacultyInfo(fac_usernames[0]); </script> </div>
 
 </body>
 </html>

@@ -1,7 +1,7 @@
 <?php
 
 error_reporting(0);
-define ('HOSTNAME', 'http://www.ist.rit.edu/api');
+define ('HOSTNAME', 'http://www.ist.rit.edu');
 
 if($_POST['path']){
 	//Wont be using this part - just wanted you to see what a post would look like!
